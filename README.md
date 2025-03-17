@@ -23,4 +23,9 @@ After switching to the install-module directory, we run the install script:
 sudo ./install-realsense-modules.sh
 ```
    
+### UDEV rules
+To install the UDEV rules for the Realsense cameras:
+```bash
+sudo ./install-udev.sh
+```
 
