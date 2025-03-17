@@ -6,8 +6,13 @@ KERNEL_SRC="$DEFAULT_KERNEL_SRC"
 
 # Patch files with specific names
 PATCH1="realsense-metadata-focal-hwe-5.15.patch"  # Streaming formats patch
-PATCH2="realsense-hid-focal-hwe-5.15.patch"      # accel/gyro fix patch
+# This is in the librealsense instructions, but have already been
+# incorporated in to 5.15.148
+# PATCH2="realsense-hid-focal-hwe-5.15.patch"      # accel/gyro fix patch
 PATCH3="realsense-camera-formats-focal-hwe-5.15.patch"  # UVC metadata patch
+
+# Store the original directory where the script and patches are located
+ORIGINAL_DIR="$PWD"
 
 # Function to display usage/help
 usage() {
@@ -16,6 +21,7 @@ usage() {
     echo "  -d  Specify the kernel source directory (default: $DEFAULT_KERNEL_SRC)"
     echo "  -h  Display this help message"
     echo "This script applies RealSense patches to a Linux kernel source for Ubuntu 20.04 (kernel 5.15)."
+    echo "Note: You may need sudo privileges to modify kernel source files in system areas."
     exit 1
 }
 
@@ -57,10 +63,10 @@ if [ ! -d "$KERNEL_SRC" ]; then
     exit 1
 fi
 
-# Check if patch files exist in the current directory
-check_file "$PATCH1"
-check_file "$PATCH2"
-check_file "$PATCH3"
+# Check if patch files exist in the original directory
+check_file "$ORIGINAL_DIR/$PATCH1"
+# check_file "$ORIGINAL_DIR/$PATCH2"
+check_file "$ORIGINAL_DIR/$PATCH3"
 
 # Check if required source files exist in the kernel source directory
 REQUIRED_FILES=(
@@ -79,41 +85,49 @@ for file in "${REQUIRED_FILES[@]}"; do
     fi
 done
 
+# Check if the user has write permissions to the kernel source directory
+if [ ! -w "$KERNEL_SRC" ]; then
+    echo "Warning: You do not have write permissions to '$KERNEL_SRC'."
+    echo "The script will use 'sudo' to apply patches. You may be prompted for your password."
+    SUDO="sudo"
+else
+    SUDO=""
+fi
+
 # Change to kernel source directory
 cd "$KERNEL_SRC" || {
     echo "Error: Could not change to directory '$KERNEL_SRC'."
     exit 1
 }
 
-# Apply the patches
+# Apply the patches with sudo if necessary
 echo "Applying patch 1: $PATCH1 (Streaming formats)..."
-patch -p1 < "$PWD/$PATCH1"
+$SUDO patch -p1 < "$ORIGINAL_DIR/$PATCH1"
 if [ $? -ne 0 ]; then
     echo "Error: Failed to apply $PATCH1."
     exit 1
 fi
 
-echo "Applying patch 2: $PATCH2 (HID accel/gyro fix)..."
-patch -p1 < "$PWD/$PATCH2"
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to apply $PATCH2."
-    echo "Attempting to revert $PATCH1..."
-    patch -R -p1 < "$PWD/$PATCH1"
-    exit 1
-fi
+# echo "Applying patch 2: $PATCH2 (HID accel/gyro fix)..."
+# $SUDO patch -p1 < "$ORIGINAL_DIR/$PATCH2"
+# if [ $? -ne 0 ]; then
+#    echo "Error: Failed to apply $PATCH2."
+#    echo "Attempting to revert $PATCH1..."
+#    $SUDO patch -R -p1 < "$ORIGINAL_DIR/$PATCH1"
+#    exit 1
+# fi
 
-echo "Applying patch 3: $PATCH3 (UVC metadata attributes)..."
-patch -p1 < "$PWD/$PATCH3"
+echo "Applying patch 2: $PATCH3 (UVC metadata attributes)..."
+$SUDO patch -p1 < "$ORIGINAL_DIR/$PATCH3"
 if [ $? -ne 0 ]; then
     echo "Error: Failed to apply $PATCH3."
-    echo "Attempting to revert $PATCH2 and $PATCH1..."
-    patch -R -p1 < "$PWD/$PATCH2"
-    patch -R -p1 < "$PWD/$PATCH1"
+    echo "Attempting to revert $PATCH1..."
+#    $SUDO patch -R -p1 < "$ORIGINAL_DIR/$PATCH2"
+    $SUDO patch -R -p1 < "$ORIGINAL_DIR/$PATCH1"
     exit 1
 fi
 
 echo "All patches applied successfully to kernel source at '$KERNEL_SRC'."
-echo "Next steps: Compile and install the patched kernel."
-echo "Run 'make' and 'sudo make install' in '$KERNEL_SRC' to build and install the kernel."
+echo "Next steps: See instructions."
 
 exit 0
