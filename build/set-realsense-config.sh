@@ -46,6 +46,9 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Config file path
+CONFIG_FILE="$KERNEL_SRC/.config"
+
 # Check if kernel source directory exists
 if [ ! -d "$KERNEL_SRC" ]; then
     echo "Kernel source directory '$KERNEL_SRC' not found."
@@ -53,9 +56,15 @@ if [ ! -d "$KERNEL_SRC" ]; then
 fi
 
 # Check if .config file exists in the specified directory
-if [ ! -f "$KERNEL_SRC/.config" ]; then
+if [ ! -f "$CONFIG_FILE" ]; then
     echo "No .config file found in $KERNEL_SRC. Please run 'make defconfig' or similar first."
     exit 1
+fi
+
+if[ ! -w "$CONFIG_FILE" ] ; then
+    SUDO="sudo"
+else
+    SUDO=""
 fi
 
 # Function to set a config option to module
@@ -63,7 +72,12 @@ set_config_module() {
     local config=$1
     echo "Setting $config=m"
     # Using scripts/config from kernel source
-    "$KERNEL_SRC/scripts/config" --file "$KERNEL_SRC/.config" --set-val "$config" m
+    # Sets the options to modules "m"
+    $SUDO "$KERNEL_SRC/scripts/config" --file "$CONFIG_FILE" --set-val "$config" m
+    if [ $? -ne 0 ] ; then
+        echo "Error: failed to set $config. Check permissions and kernel source."
+        exit 1
+    fi
 }
 
 # Process each config option
