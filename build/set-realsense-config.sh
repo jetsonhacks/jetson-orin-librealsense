@@ -61,7 +61,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
     exit 1
 fi
 
-if[ ! -w "$CONFIG_FILE" ] ; then
+if [ ! -w "$CONFIG_FILE" ] ; then
     SUDO="sudo"
 else
     SUDO=""
