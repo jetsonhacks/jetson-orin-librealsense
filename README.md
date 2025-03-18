@@ -1,6 +1,5 @@
 # jetson-orin-librealsense
-Prebuilt kernel modules for running librealsense on Jerson Orin, JetPack 6. Includes build tools.
-# WIP
+Prebuilt kernel modules for running librealsense on Jerson Orin, JetPack 6, kernel 5.15.148-tegra. Includes build tools.
 
 # Installing librealsense support kernel modules
 Some patches to modules have been applied to support Realsense cameras. These are all standard in-tree Linux modules that have been compiled for JetPack 6.2 (Kernel 5.15.148-tegra).
