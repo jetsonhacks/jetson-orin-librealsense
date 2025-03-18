@@ -20,7 +20,7 @@ After completing the configuration, compile the modules.
 Then you are ready to install the modules.
 
 ## Installing the modules
-If you use the default build location, here are the locations of the modules:
+If you use the default build location, here are the locations of the modules, and where they go in the /lib/modules/ hierarchy. Some assembly required, depending on your needs.
 ```bash
 sudo cp /usr/src/kernel/kernel-jammy-src/drivers/media/usb/uvc/uvcvideo.ko /lib/modules/5.15.148-tegra/kernel/drivers/media/usb/uvc/uvcvideo.ko
 sudo cp /usr/src/kernel/kernel-jammy-src/drivers/iio/accel/hid-sensor-accel-3d.ko /lib/modules/5.15.148-tegra/kernel/drivers/iio/accel/hid-sensor-accel-3d.ko
@@ -41,11 +41,11 @@ There are 6 modules:
 
 # Note
 The relevant source files that are used:
-kernel/kernel-jammy-src/drivers/media/usb/uvc/uvc_driver.c
-kernel/kernel-jammy-src/drivers/media/usb/uvc/uvcvideo.h
-kernel/kernel-jammy-src/drivers/media/v4l2-core/v4l2-ioctl.c
-kernel/kernel-jammy-src/include/uapi/linux/videodev2.h
-kernel/kernel-jammy-src/drivers/iio/accel/hid-sensor-accel-3d.c
-kernel/kernel-jammy-src/drivers/iio/gyro/hid-sensor-gyro-3d.c
+* kernel/kernel-jammy-src/drivers/media/usb/uvc/uvc_driver.c
+* kernel/kernel-jammy-src/drivers/media/usb/uvc/uvcvideo.h
+* kernel/kernel-jammy-src/drivers/media/v4l2-core/v4l2-ioctl.c
+* kernel/kernel-jammy-src/include/uapi/linux/videodev2.h
+* kernel/kernel-jammy-src/drivers/iio/accel/hid-sensor-accel-3d.c
+* kernel/kernel-jammy-src/drivers/iio/gyro/hid-sensor-gyro-3d.c
 
 
