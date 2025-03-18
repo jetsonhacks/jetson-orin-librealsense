@@ -29,7 +29,10 @@ sudo cp /usr/src/kernel/kernel-jammy-src/drivers/hid/hid-sensor-hub.ko /lib/modu
 sudo cp /usr/src/kernel/kernel-jammy-src/drivers/iio/common/hid-sensors/hid-sensor-trigger.ko /lib/modules/5.15.148-tegra/kernel/drivers/iio/common/hid-sensors/hid-sensor-trigger.ko
 sudo cp /usr/src/kernel/kernel-jammy-src/drivers/iio/gyro/hid-sensor-gyro-3d.ko /lib/modules/5.15.148-tegra/kernel/drivers/iio/gyro/hid-sensor-gyro-3d.ko
 ```
-
+You will need to depmod too:
+```bash
+sudo depmod -a
+```
 There are 6 modules:
 * uvcvideo.ko
 * hid-sensor-accel-3d.ko
