@@ -8,7 +8,7 @@ The modules are distributed here in a tar file so we can do a checksum on them f
  
 To install the modules for use with librealsense, first do a checksum
 ```
-$ sha256sum -c install-modules.tar.gz.sha256
+sha256sum -c install-modules.tar.gz.sha256
 ```
 
 Then to expand the install-modules directory:
