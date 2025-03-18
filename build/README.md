@@ -18,3 +18,34 @@ You should consider using the kernel editors make menuconfig (CLI) or make xconf
 After completing the configuration, compile the modules.
 
 Then you are ready to install the modules.
+
+## Installing the modules
+If you use the default build location, here are the locations of the modules:
+```bash
+sudo cp /usr/src/kernel/kernel-jammy-src/drivers/media/usb/uvc/uvcvideo.ko /lib/modules/5.15.148-tegra/kernel/drivers/media/usb/uvc/uvcvideo.ko
+sudo cp /usr/src/kernel/kernel-jammy-src/drivers/iio/accel/hid-sensor-accel-3d.ko /lib/modules/5.15.148-tegra/kernel/drivers/iio/accel/hid-sensor-accel-3d.ko
+sudo cp /usr/src/kernel/kernel-jammy-src/drivers/iio/common/hid-sensors/hid-sensor-iio-common.ko /lib/modules/5.15.148-tegra/kernel/drivers/iio/common/hid-sensors/hid-sensor-iio-common.ko
+sudo cp /usr/src/kernel/kernel-jammy-src/drivers/hid/hid-sensor-hub.ko /lib/modules/5.15.148-tegra/kernel/drivers/hid/hid-sensor-hub.ko 
+sudo cp /usr/src/kernel/kernel-jammy-src/drivers/iio/common/hid-sensors/hid-sensor-trigger.ko /lib/modules/5.15.148-tegra/kernel/drivers/iio/common/hid-sensors/hid-sensor-trigger.ko
+sudo cp /usr/src/kernel/kernel-jammy-src/drivers/iio/gyro/hid-sensor-gyro-3d.ko /lib/modules/5.15.148-tegra/kernel/drivers/iio/gyro/hid-sensor-gyro-3d.ko
+```
+
+There are 6 modules:
+* uvcvideo.ko
+* hid-sensor-accel-3d.ko
+* hid-sensor-iio-common.ko
+* hid-sensor-hub.ko
+* hid-sensor-trigger.ko
+* hid-sensor-gyro-3d.ko
+
+
+# Note
+The relevant source files that are used:
+kernel/kernel-jammy-src/drivers/media/usb/uvc/uvc_driver.c
+kernel/kernel-jammy-src/drivers/media/usb/uvc/uvcvideo.h
+kernel/kernel-jammy-src/drivers/media/v4l2-core/v4l2-ioctl.c
+kernel/kernel-jammy-src/include/uapi/linux/videodev2.h
+kernel/kernel-jammy-src/drivers/iio/accel/hid-sensor-accel-3d.c
+kernel/kernel-jammy-src/drivers/iio/gyro/hid-sensor-gyro-3d.c
+
+
